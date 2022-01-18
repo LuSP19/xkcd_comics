@@ -18,7 +18,7 @@
   https://oauth.vk.com/authorize?client_id=1&display=page&scope=photos,groups,wall,offline&response_type=token&v=5.131&state=123456
   ```
 
-- Токен для доступа к API ВКонтакте и ID группы с комиксами (узнать ID можно [здесь](https://regvk.com/id/)) нужно поместить в файл **.env** в каталоге со скриптом в следующем виде:
+- поместить полученный токен для доступа к API ВКонтакте и ID группы с комиксами (узнать ID можно [здесь](https://regvk.com/id/)) в файл **.env** в каталоге со скриптом в следующем виде:
 
 ```bash
 VK_ACCESS_TOKEN='3a631c32b88134d2c582f53a41cd2b93d2a139c12f8207ea51cb4281a2c9382177e741bb95e2a27491a82'
