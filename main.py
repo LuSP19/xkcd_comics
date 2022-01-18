@@ -43,8 +43,9 @@ def upload_comic(params):
         response = requests.post(url, files=files)
         response.raise_for_status()
         response = response.json()
-    
+
     return response
+
 
 def save_comic(params, response):
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
@@ -60,7 +61,7 @@ def save_comic(params, response):
 
 def publish_comic(params, response, comment):
     media_id = response['response'][0]['id']
-    owner_id =  response['response'][0]['owner_id']
+    owner_id = response['response'][0]['owner_id']
 
     url = 'https://api.vk.com/method/wall.post'
     params['owner_id'] = '-' + params['group_id']
@@ -78,8 +79,8 @@ def main():
     vk_api_version = '5.131'
 
     params = {
-        'group_id':group_id,
-        'access_token':vk_access_token,
+        'group_id': group_id,
+        'access_token': vk_access_token,
         'v': vk_api_version,
     }
 
