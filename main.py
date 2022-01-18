@@ -31,13 +31,9 @@ def download_comic():
     return(comment)
 
 
-def upload_comic(comics_group_id, vk_access_token, vk_api_version, comment):
+def upload_comic(params):
     url = 'https://api.vk.com/method/photos.getWallUploadServer'
-    params = {
-        'group_id':comics_group_id,
-        'access_token':vk_access_token,
-        'v': vk_api_version,
-    }
+
     response = requests.get(url, params=params)
     response.raise_for_status()
     response = response.json()
@@ -47,7 +43,10 @@ def upload_comic(comics_group_id, vk_access_token, vk_api_version, comment):
         response = requests.post(url, files=files)
         response.raise_for_status()
         response = response.json()
+    
+    return response
 
+def save_comic(params, response):
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params['server'] = response['server']
     params['photo'] = response['photo']
@@ -56,11 +55,15 @@ def upload_comic(comics_group_id, vk_access_token, vk_api_version, comment):
     response.raise_for_status()
     response = response.json()
 
+    return response
+
+
+def publish_comic(params, response, comment):
     media_id = response['response'][0]['id']
     owner_id =  response['response'][0]['owner_id']
 
     url = 'https://api.vk.com/method/wall.post'
-    params['owner_id'] = '-' + comics_group_id
+    params['owner_id'] = '-' + params['group_id']
     params['from_group'] = '1'
     params['attachments'] = f'photo{owner_id}_{media_id}'
     params['message'] = comment
@@ -71,10 +74,21 @@ def upload_comic(comics_group_id, vk_access_token, vk_api_version, comment):
 def main():
     load_dotenv()
     vk_access_token = os.getenv('VK_ACCESS_TOKEN')
-    comics_group_id = os.getenv('COMICS_GROUP_ID')
+    group_id = os.getenv('COMICS_GROUP_ID')
     vk_api_version = '5.131'
+
+    params = {
+        'group_id':group_id,
+        'access_token':vk_access_token,
+        'v': vk_api_version,
+    }
+
     comment = download_comic()
-    upload_comic(comics_group_id, vk_access_token, vk_api_version, comment)
+
+    response = upload_comic(params)
+    response = save_comic(params, response)
+    publish_comic(params, response, comment)
+
     os.remove('comic.png')
 
 
