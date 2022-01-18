@@ -33,7 +33,6 @@ def download_comic():
 
 def upload_comic(params):
     url = 'https://api.vk.com/method/photos.getWallUploadServer'
-
     response = requests.get(url, params=params)
     response.raise_for_status()
     response = response.json()
