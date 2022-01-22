@@ -31,7 +31,7 @@ def download_comic(num):
     with open('comic.png', 'wb') as file:
         file.write(response.content)
 
-    return(comment)
+    return comment
 
 
 def upload_comic(params):
@@ -85,7 +85,7 @@ def main():
         'access_token': vk_access_token,
         'v': vk_api_version,
     }
-    
+
     comic_number = get_random_comic_num()
     comment = download_comic(comic_number)
 
