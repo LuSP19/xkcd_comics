@@ -12,10 +12,13 @@ def get_latest_comic_num():
     return response.json()['num']
 
 
-def download_comic():
+def get_random_comic_num():
     number_of_comics = get_latest_comic_num()
-    comic_number = randint(1, number_of_comics)
-    url = f'https://xkcd.com/{comic_number}/info.0.json'
+    return randint(1, number_of_comics)
+
+
+def download_comic(num):
+    url = f'https://xkcd.com/{num}/info.0.json'
     response = requests.get(url)
     response.raise_for_status()
     response = response.json()
@@ -82,8 +85,9 @@ def main():
         'access_token': vk_access_token,
         'v': vk_api_version,
     }
-
-    comment = download_comic()
+    
+    comic_number = get_random_comic_num()
+    comment = download_comic(comic_number)
 
     response = upload_comic(params)
     response = save_comic(params, response)
