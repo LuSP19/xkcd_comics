@@ -122,29 +122,30 @@ def main():
     comic_number = get_random_comic_num()
     comic_comment = download_comic(comic_number)
 
-    photo, server, hash = upload_comic(
-        group_id,
-        vk_access_token,
-        vk_api_version
-    )
-    owner_id, media_id = save_comic(
-        group_id,
-        photo,
-        server,
-        hash,
-        vk_access_token,
-        vk_api_version
-    )
-    publish_comic(
-        group_id,
-        owner_id,
-        media_id,
-        vk_access_token,
-        vk_api_version,
-        comic_comment
-    )
-
-    os.remove('comic.png')
+    try:
+        photo, server, hash = upload_comic(
+            group_id,
+            vk_access_token,
+            vk_api_version
+        )
+        owner_id, media_id = save_comic(
+            group_id,
+            photo,
+            server,
+            hash,
+            vk_access_token,
+            vk_api_version
+        )
+        publish_comic(
+            group_id,
+            owner_id,
+            media_id,
+            vk_access_token,
+            vk_api_version,
+            comic_comment
+        )
+    finally:
+        os.remove('comic.png')
 
 
 if __name__ == '__main__':
