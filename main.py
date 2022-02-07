@@ -63,18 +63,25 @@ def upload_comic(group_id, vk_access_token, vk_api_version):
 
     photo = decoded_response['photo']
     server = decoded_response['server']
-    hash = decoded_response['hash']
+    photo_hash = decoded_response['hash']
 
-    return photo, server, hash
+    return photo, server, photo_hash
 
 
-def save_comic(group_id, photo, server, hash, vk_access_token, vk_api_version):
+def save_comic(
+    group_id,
+    photo,
+    server,
+    photo_hash,
+    vk_access_token,
+    vk_api_version
+):
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
         'group_id': group_id,
         'photo': photo,
         'server': server,
-        'hash': hash,
+        'hash': photo_hash,
         'access_token': vk_access_token,
         'v': vk_api_version,
     }
@@ -123,7 +130,7 @@ def main():
     comic_comment = download_comic(comic_number)
 
     try:
-        photo, server, hash = upload_comic(
+        photo, server, photo_hash = upload_comic(
             group_id,
             vk_access_token,
             vk_api_version
@@ -132,7 +139,7 @@ def main():
             group_id,
             photo,
             server,
-            hash,
+            photo_hash,
             vk_access_token,
             vk_api_version
         )
