@@ -107,7 +107,7 @@ def publish_comic(
 ):
     url = 'https://api.vk.com/method/wall.post'
     params = {
-        'owner_id': '-' + group_id,
+        'owner_id': f'-{group_id}',
         'from_group': '1',
         'attachments': f'photo{owner_id}_{media_id}',
         'message': comic_comment,
